@@ -1,32 +1,33 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Register OneSignal</title>
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-  <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function () {
-      OneSignal.init({
-        appId: "31f45f7d-01ae-46d2-a7a0-cb0610e5500f",
-        notifyButton: { enable: false }
-      });
+  <head>
+    <title>Register OneSignal</title>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "31f45f7d-01ae-46d2-a7a0-cb0610e5500f", // ← Ganti App ID OneSignal kamu
+          notifyButton: { enable: false }
+        });
 
-      OneSignal.getUserId().then(function (playerId) {
-        fetch("https://coba-31d13-default-rtdb.firebaseio.com/player_id.json", {
-          method: "PUT",
-          body: JSON.stringify(playerId)
-        })
-        .then(() => {
-          document.body.innerHTML = "<h3>✅ Player ID berhasil dikirim ke Firebase</h3>";
-        })
-        .catch(() => {
-          document.body.innerHTML = "<h3>❌ Gagal mengirim player ID</h3>";
+        OneSignal.getUserId().then(function (playerId) {
+          fetch("https://coba-31d13-default-rtdb.firebaseio.com/player_id.json", {
+            method: "PUT",
+            body: JSON.stringify(playerId)
+          })
+          .then(() => {
+            document.body.innerHTML = "<h3>✅ player_id terkirim ke Firebase!</h3>";
+          })
+          .catch(() => {
+            document.body.innerHTML = "<h3>❌ Gagal kirim player_id</h3>";
+          });
         });
       });
-    });
-  </script>
-</head>
-<body>
-  <h2>⏳ Mengambil player ID...</h2>
-</body>
+    </script>
+  </head>
+  <body>
+    <h3>⏳ Sedang ambil player ID...</h3>
+  </body>
 </html>
