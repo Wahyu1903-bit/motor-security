@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Motor Security</title>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "26dac87a-7781-4f95-8e37-b5f590e1e901",
+      });
+
+      OneSignal.on('subscriptionChange', function (isSubscribed) {
+        if (isSubscribed) {
+          OneSignal.getUserId().then(function(playerId) {
+            // Kirim playerId ke Firebase
+            fetch("https://coba-31d13-default-rtdb.firebaseio.com/", {
+              method: "PUT",
+              body: JSON.stringify(playerId)
+            });
+          });
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <h2>Memuat Notifikasi...</h2>
+</body>
+</html>
