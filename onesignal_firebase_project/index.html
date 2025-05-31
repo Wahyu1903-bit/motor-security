@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>OneSignal Player ID</title>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+</head>
+<body>
+  <h2 id="status">Memuat notifikasi...</h2>
+
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "26dac87a-7781-4f95-8e37-b5f590e1e901"
+      });
+
+      OneSignal.showSlidedownPrompt();
+
+      OneSignal.on('subscriptionChange', function (isSubscribed) {
+        if (isSubscribed) {
+          OneSignal.getUserId().then(function (playerId) {
+            document.getElementById("status").innerText = "Player ID: " + playerId;
+
+            // Kirim ke Firebase
+            fetch("https://coba-31d13-default-rtdb.firebaseio.com/KeamananKendaraan/player_id.json", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(playerId)
+            }).then(() => {
+              console.log("Terkirim ke Firebase");
+            }).catch((err) => {
+              console.error("Gagal kirim:", err);
+            });
+          });
+        } else {
+          document.getElementById("status").innerText = "Belum diizinkan notifikasi.";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
